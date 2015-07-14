@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="model.Dilg" table="Dilg" catalog="CIS">
+        <id name="Oid" type="java.lang.Integer">
+            <column name="Oid" />
+            <generator class="native" />
+        </id>
+        <property name="Dtime_oid" type="java.lang.Integer">
+            <column name="Dtime_oid"/>
+        </property>       
+        <property name="student_no" type="java.lang.String">
+            <column name="student_no"/>
+        </property>
+        <property name="date" type="java.util.Date">
+            <column name="date"/>
+        </property>
+        <property name="cls" type="java.lang.String">
+            <column name="cls"/>
+        </property>
+        <property name="abs" type="java.lang.String">
+            <column name="abs"/>
+        </property>
+        <property name="Dilg_app_oid" type="java.lang.Integer">
+            <column name="Dilg_app_oid"/>
+        </property>
+        <property name="earlier" type="java.lang.String">
+            <column name="earlier"/>
+        </property>
+        <property name="abs_original" type="java.lang.String">
+            <column name="abs_original"/>
+        </property>        
+    </class>
+</hibernate-mapping>

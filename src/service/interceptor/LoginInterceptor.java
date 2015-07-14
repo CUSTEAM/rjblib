@@ -1,0 +1,48 @@
+package service.interceptor;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import service.impl.AccountManager;
+
+import com.opensymphony.xwork2.ActionInvocation;
+import com.opensymphony.xwork2.interceptor.Interceptor;
+	/**
+	 * 攔截使用者動作，驗證cookie & session有效
+	 * @author John
+	 */
+	public class LoginInterceptor implements Interceptor {
+	    public void destroy() {}
+	    public void init() {}
+	    public String intercept(ActionInvocation invocation) throws Exception {  
+	        
+	    	HttpSession session=ServletActionContext.getRequest().getSession();
+	    	HttpServletRequest request=ServletActionContext.getRequest();	    	
+	    	//登入與登出功能不作攔截
+	    	if(invocation.getAction().getClass().getName().indexOf("Log")>=0){	    		
+	        	return invocation.invoke();
+	        }	        
+	    	//確認是否有選單及權限session，若有則驗證為線上使用者
+	    	if(session!=null){
+	    		if(session.getAttribute("userid")!=null){//使用者為本專案線上使用者
+	    			return invocation.invoke();
+	    		}
+	    	}	    	
+	    	//確認是否有尚未失效的cookie-name=userid，若有則為其他系統使用者跳轉
+	    	ApplicationContext context=WebApplicationContextUtils.getWebApplicationContext(session.getServletContext());	    	
+    		AccountManager am=(AccountManager) context.getBean("AccountManager");
+	    	if(am.loginJumpUser(request)){
+	    		return invocation.invoke();
+	    	}else{
+	    		//沒有session也沒有cookie者轉往登入頁
+	    		HttpServletResponse response=ServletActionContext.getResponse();
+	    		response.sendRedirect("Logout");//轉送至eis
+	    		return null; 
+	    	}
+	    }
+	} 	
