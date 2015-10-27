@@ -26,17 +26,17 @@ public class TaskListener extends TimerTask {
 		ServletContext servletContext = event.getServletContext();
 		
 		List<Map>tmp;
-    	
+		List<Map>c;
     	//系統日曆
 		//原始名稱為String型態
 		//date_XXX為Date型態
 		System.out.println("--------------------");
 		System.out.println("載入日曆沿用(原始名稱)為String型態, 冠上date_(原始名稱)為Date型態");
 		SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		List<Map<String,String>>c=dm.sqlGet("SELECT *, DATE_FORMAT(cdate,'%Y-%m-%d %H:%i')as date FROM SYS_CALENDAR WHERE name IS NOT NULL");
+		c=dm.sqlGet("SELECT *, DATE_FORMAT(cdate,'%Y-%m-%d %H:%i')as date FROM SYS_CALENDAR WHERE name IS NOT NULL");
 		for(int i=0; i<c.size(); i++){
 			System.out.println("建立"+c.get(i).get("note")+":"+c.get(i).get("name")+"="+c.get(i).get("date"));
-			servletContext.setAttribute(c.get(i).get("name"), c.get(i).get("date"));
+			servletContext.setAttribute(c.get(i).get("name").toString(), c.get(i).get("date"));
 			try {
 				servletContext.setAttribute("date_"+c.get(i).get("name"), sf.parse(c.get(i).get("date").toString()));
 			} catch (ParseException e) {
@@ -51,7 +51,7 @@ public class TaskListener extends TimerTask {
 		c=dm.sqlGet("SELECT * FROM SYS_HOST");
 		for(int i=0; i<c.size(); i++){
 			System.out.println("建立"+c.get(i).get("note")+"FTP服務(Map):"+c.get(i).get("useid"));
-			servletContext.setAttribute(c.get(i).get("useid"), c.get(i));
+			servletContext.setAttribute(c.get(i).get("useid").toString(), c.get(i));
 		}
 		System.out.println("--------------------");
 		
@@ -138,9 +138,7 @@ public class TaskListener extends TimerTask {
 		for(int i=0; i<tmp.size(); i++){
 			System.out.println("建立"+tmp.get(i).get("table_name"));
 			servletContext.setAttribute(tmp.get(i).get("table_name").toString(), dm.sqlGet("SELECT * FROM "+tmp.get(i).get("table_name")));
-		}
-		
-		
+		}		
 		System.out.println("--------------------");
     	
 		//擋修規則
@@ -153,13 +151,26 @@ public class TaskListener extends TimerTask {
 		servletContext.setAttribute("dtimeBlock", tmp);
 		System.out.println("--------------------");
 		
-		//權限
-		System.out.println("載入程式使用權限");
-		System.out.println("建立程式使用權限(List)sysmodules");
-		tmp=dm.sqlGet("SELECT * FROM SYS_MODULE m");
+		//選單
+		System.out.println("載入程式清單與使用權限");
+		System.out.println("建立程式清單與使用權限(List)sysmenu");
+		tmp=dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent=0");//第1層
 		for(int i=0; i<tmp.size(); i++){
-			tmp.get(i).put("units", dm.sqlGet("SELECT unit_id FROM SYS_MODULE_UNIT WHERE module_oid="+tmp.get(i).get("Oid")));
+			c=dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent="+tmp.get(i).get("Oid"));//第2層
+			tmp.get(i).put("menu", c);
+			for(int j=0; j<c.size(); j++){
+				c.get(j).put("menu", dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent="+c.get(j).get("Oid")));//第3層				
+			}
+			tmp.get(i).put("rule", dm.sqlGet("SELECT * FROM SYS_MODULE_UNIT WHERE module_oid="+tmp.get(i).get("Oid")));
 		}
+		
+		
+		
+		
+		servletContext.setAttribute("sysmenu", tmp);
+		System.out.println("--------------------");
+		
+		
     }
 
 }

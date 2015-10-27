@@ -7,10 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.Message;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
@@ -19,6 +15,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.opensymphony.xwork2.ActionSupport;
+
+import model.Message;
 import service.impl.AccountManager;
 import service.impl.CourseManager;
 import service.impl.DataFinder;
@@ -29,14 +28,17 @@ import service.impl.base.BaseIOImpl;
 import service.impl.base.BaseLiteralImpl;
 import service.impl.base.BaseMathImpl;
 
-import com.opensymphony.xwork2.ActionSupport;
-
 /**
  * action
  * @author John *
  */
 public class BaseAction extends ActionSupport implements ServletRequestAware, ServletResponseAware, SessionAware, ServletContextAware {	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	ServletContext application = ServletActionContext.getRequest().getSession().getServletContext();	
 	
 	protected ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(application);

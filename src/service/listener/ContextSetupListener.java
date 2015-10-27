@@ -29,7 +29,7 @@ public class ContextSetupListener implements ServletContextListener {
         //now.set(Calendar.SECOND, 0);
         //timer.schedule(task, now.getTime());
         System.out.println("載入系統參數, 啟動後每15分鐘自動重新載入");
-        timer.schedule(task, 0, 3600000);//每60分鐘？
+        timer.schedule(task, 0, 900000);//每1000*60*15分鐘？
     }
 
 }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="model.SYSDOC" table="SYS_DOC" catalog="CIS">
+        <id name="oid" type="java.lang.Integer">
+            <column name="Oid" />
+            <generator class="identity" />
+        </id>
+        
+        <property name="sys" type="java.lang.Integer">
+            <column name="sys"/>
+        </property> 
+          
+        <property name="title" type="java.lang.String">
+            <column name="title"/>
+        </property>
+        
+        <property name="question" type="java.lang.String">
+            <column name="question"/>
+        </property>
+        
+        <property name="send_unit" type="java.lang.String">
+            <column name="send_unit"/>
+        </property>
+        
+        <property name="sender" type="java.lang.String">
+            <column name="sender"/>
+        </property>
+        
+        <property name="note" type="java.lang.String">
+            <column name="note"/>
+        </property>
+        
+        <property name="reply" type="java.lang.String">
+            <column name="reply"/>
+        </property>
+        
+        <property name="editor" type="java.lang.String">
+            <column name="editor"/>
+        </property>
+        
+        <property name="tester" type="java.lang.String">
+            <column name="tester"/>
+        </property>
+        
+		<property name="review" type="java.lang.String">
+            <column name="review"/>
+        </property>
+        
+		<property name="review_final" type="java.lang.String">
+            <column name="review_final"/>
+        </property>
+        
+		<property name="scope" type="java.lang.String">
+            <column name="scope"/>
+        </property>
+        
+		<property name="type" type="java.lang.String">
+            <column name="type"/>
+        </property>
+        
+		<property name="c_date" type="java.util.Date">
+            <column name="c_date"/>
+        </property>
+        
+		<property name="e_date" type="java.util.Date">
+            <column name="e_date"/>
+        </property>
+        	
+    </class>
+</hibernate-mapping>

@@ -1,15 +1,10 @@
 package dao;
 
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 /**
@@ -31,7 +26,7 @@ public class HibernateDAO extends HibernateDaoSupport {
     /**
      * @see com.neoasia.dao.DAO#getObject(java.lang.Class, java.io.Serializable)
      */
-    public Object getObject(Class clazz, Serializable id) {
+    public Object getObject(@SuppressWarnings("rawtypes") Class clazz, Serializable id) {
         Object o = getHibernateTemplate().get(clazz, id);
         if (o == null) {
             throw new ObjectRetrievalFailureException(clazz, id);
