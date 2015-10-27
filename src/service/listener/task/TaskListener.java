@@ -154,13 +154,13 @@ public class TaskListener extends TimerTask {
 		//選單
 		System.out.println("載入程式清單與使用權限");
 		System.out.println("建立程式清單與使用權限(List)sysmenu");
-		tmp=dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent=0");//第0層
+		tmp=dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent=0 ORDER BY seq");//第0層
 		for(int i=0; i<tmp.size(); i++){
-			c=dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent="+tmp.get(i).get("Oid"));//第1層			
+			c=dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent="+tmp.get(i).get("Oid")+" ORDER BY seq");//第1層			
 			for(int j=0; j<c.size(); j++){
-				d=dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent="+c.get(j).get("Oid"));
+				d=dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent="+c.get(j).get("Oid")+" ORDER BY seq");
 				for(int k=0; k<d.size(); k++){
-					d.get(k).put("menu", dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent="+d.get(k).get("Oid")));
+					d.get(k).put("menu", dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent="+d.get(k).get("Oid")+" ORDER BY seq"));
 				}
 				c.get(j).put("menu", d);//第2層				
 			}
