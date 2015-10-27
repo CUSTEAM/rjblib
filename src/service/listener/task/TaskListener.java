@@ -26,7 +26,7 @@ public class TaskListener extends TimerTask {
 		ServletContext servletContext = event.getServletContext();
 		
 		List<Map>tmp;
-		List<Map>c;
+		List<Map>c, d;
     	//系統日曆
 		//原始名稱為String型態
 		//date_XXX為Date型態
@@ -154,19 +154,19 @@ public class TaskListener extends TimerTask {
 		//選單
 		System.out.println("載入程式清單與使用權限");
 		System.out.println("建立程式清單與使用權限(List)sysmenu");
-		tmp=dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent=0");//第1層
+		tmp=dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent=0");//第0層
 		for(int i=0; i<tmp.size(); i++){
-			c=dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent="+tmp.get(i).get("Oid"));//第2層
-			tmp.get(i).put("menu", c);
+			c=dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent="+tmp.get(i).get("Oid"));//第1層			
 			for(int j=0; j<c.size(); j++){
-				c.get(j).put("menu", dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent="+c.get(j).get("Oid")));//第3層				
+				d=dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent="+c.get(j).get("Oid"));
+				for(int k=0; k<d.size(); k++){
+					d.get(k).put("menu", dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent="+d.get(k).get("Oid")));
+				}
+				c.get(j).put("menu", d);//第2層				
 			}
+			tmp.get(i).put("menu", c);
 			tmp.get(i).put("rule", dm.sqlGet("SELECT * FROM SYS_MODULE_UNIT WHERE module_oid="+tmp.get(i).get("Oid")));
-		}
-		
-		
-		
-		
+		}		
 		servletContext.setAttribute("sysmenu", tmp);
 		System.out.println("--------------------");
 		
