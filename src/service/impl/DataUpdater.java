@@ -28,6 +28,17 @@ public class DataUpdater extends BaseAccessImpl{
 		
 	}
 	
+	/**
+	 * 動作記錄
+	 * @param action 程式名稱
+	 * @param user 使用者
+	 * @param note 註記
+	 */
+	public void saveLog(String action, String user, String note){
+		
+		exSql("INSERT INTO SYS_LOG(action,cname,note)VALUES('"+action+"','"+user+"','"+note+"')");
+	}
+	
 	public void updateUnit(ServletContext servletContext){
 		
 		System.out.println("載入各單位為List of Map型態");
