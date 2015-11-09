@@ -25,6 +25,19 @@ public class BaseLiteralImpl {
 	}
 	
 	/**
+	 * 轉換day of week中星期日為0的問題
+	 * @param w
+	 * @return
+	 */
+	public int paresJavaDayOfWeek(int w){
+		if(w==0){
+			return 7;
+		}else{
+			return w;
+		}
+	}
+	
+	/**
 	 * 星期轉換
 	 * @param w
 	 * @param front 選擇性調整前置「星期」、「週」或者不指定

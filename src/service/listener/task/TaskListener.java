@@ -2,6 +2,8 @@ package service.listener.task;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimerTask;
@@ -56,7 +58,7 @@ public class TaskListener extends TimerTask {
 		System.out.println("--------------------");
 		
 		//學年學期
-		System.out.println("載入學年學期為String型態, TODO 轉換Table至SYS..");
+		System.out.println("載入學年學期為String型態, TODO: 轉換Table至SYS..");
 		String school_year=dm.sqlGetStr("SELECT Value FROM Parameter WHERE Name='School_year'");
 		String school_term=dm.sqlGetStr("SELECT Value FROM Parameter WHERE Name='School_term'");
 		servletContext.setAttribute("school_year", school_year);		
@@ -170,6 +172,24 @@ public class TaskListener extends TimerTask {
 		servletContext.setAttribute("sysmenu", tmp);
 		System.out.println("--------------------");
 		
+		//節次時間
+		System.out.println("載入節次時間對應");
+		System.out.println("建立節次時間對應(List)dtimestamp, 周一至五參考台北四技，六日參考台北二技");		
+		tmp=new ArrayList();
+		Map m;
+		for(int i=1; i<=7; i++){
+			m=new HashMap();
+			m.put("week", i);
+			if(i<6){
+				tmp.addAll(dm.sqlGet("SELECT d.DSvalue, d.DSreal, d.DSbegin, d.DSend FROM Dtimestamp d WHERE "
+						+ "d.DSweek='"+i+"' AND d.Cidno='1'  GROUP BY d.DSreal ORDER BY d.DSreal"));
+			}else{
+				tmp.addAll(dm.sqlGet("SELECT d.DSvalue, d.DSreal, d.DSbegin, d.DSend FROM Dtimestamp d WHERE d.DSweek='"+i+"' AND d.Cidno='1' AND d.Sidno='72'GROUP BY d.DSreal ORDER BY d.DSreal"));
+				
+			}			
+		}
+		servletContext.setAttribute("dtimestamp", tmp);
+		System.out.println("--------------------");
 		
     }
 
