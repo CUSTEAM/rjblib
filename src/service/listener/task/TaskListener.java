@@ -3,6 +3,8 @@ package service.listener.task;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,11 +44,32 @@ public class TaskListener extends TimerTask {
 			try {
 				servletContext.setAttribute("date_"+c.get(i).get("name"), sf.parse(c.get(i).get("date").toString()));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}	
 		System.out.println("--------------------");
+		
+		//週次
+		System.out.println("載入週次為Integer型態, 根據school_term_begin推算");
+		try{
+			Calendar cal1=Calendar.getInstance();
+			Calendar cal2=Calendar.getInstance();
+			cal1.setTime(sf.parse(servletContext.getAttribute("school_term_begin").toString()));
+			cal2.setTime(new Date());
+			int w=0;
+			while(cal1.getTimeInMillis()<cal2.getTimeInMillis()){
+				cal1.add(Calendar.DAY_OF_YEAR, 7);
+				w++;
+			}
+			servletContext.setAttribute("sweek", w);	
+			System.out.println("載入週次: "+w);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+		System.out.println("--------------------");
+		
 		
 		//FTP主機
 		System.out.println("載入FTP服務為Map型態, 內容參閱SYS_HOST資料表");
@@ -73,7 +96,7 @@ public class TaskListener extends TimerTask {
 		servletContext.getAttribute("school_term_end")+"'");
 		System.out.println("建立休假日期(List)holiday="+tmp.size());
 		servletContext.setAttribute("holiday", tmp);
-		System.out.println("--------------------");
+		System.out.println("--------------------");		
 		
 		//系統
 		System.out.println("載入系統列表為List of Map型態");
@@ -144,6 +167,7 @@ public class TaskListener extends TimerTask {
 		System.out.println("--------------------");
     	
 		//擋修規則
+		//TODO 網路選課程式更新時重新設計擋修
 		System.out.println("載入擋修規則");
 		System.out.println("建立擋修規則(List)dtimeBlock");	
 		tmp=dm.sqlGet("SELECT Dtime_oid FROM Dtime_block GROUP BY Dtime_oid");
