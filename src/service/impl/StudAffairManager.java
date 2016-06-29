@@ -118,9 +118,11 @@ public class StudAffairManager{
 				m=new HashMap();
 				m.put("cls", dc[j]);
 				try{
-					m.put("abs", dataFinder.sqlGetStr("SELECT abs FROM Dilg WHERE student_no='"+((Map)list.get(i)).get("student_no")+"' AND cls='"+dc[j]+"' AND date='"+date+"'"));
+					//m1=dataFinder.sqlGetMap("SELECT abs, earlier FROM Dilg WHERE student_no='"+((Map)list.get(i)).get("student_no")+"' AND cls='"+dc[j]+"' AND date='"+date+"'");
+					m.putAll(dataFinder.sqlGetMap("SELECT abs, earlier FROM Dilg WHERE student_no='"+((Map)list.get(i)).get("student_no")+"' AND cls='"+dc[j]+"' AND date='"+date+"'"));
 				}catch(Exception e){
 					m.put("abs", "");
+					m.put("earlier", "");
 				}				
 				dg.add(m);
 			}			

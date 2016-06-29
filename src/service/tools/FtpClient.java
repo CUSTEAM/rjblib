@@ -142,6 +142,9 @@ public class FtpClient {
 			} else {
 				ftp.setFileType(FTPClient.ASCII_FILE_TYPE);
 			}
+			
+			ftp.setBufferSize(1024);
+			ftp.setControlEncoding("UTF-8");
 			// 處理傳輸
 			input = new FileInputStream(localAbsoluteFile);
 			ftp.setControlKeepAliveTimeout(300);
