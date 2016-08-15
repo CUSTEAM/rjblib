@@ -15,6 +15,7 @@ import org.apache.commons.net.ftp.FTPReply;
 
 /**
  * 遠端操作FTP
+ * 
  * @author JOHN
  * 
  */
@@ -27,17 +28,16 @@ public class FtpClient {
 	private String ServerDir;
 	private FTPClient ftp;
 
-	private boolean binaryTransfer = false;
+	private boolean binaryTransfer = true;
 
-	//private final static Logger log = Logger.getLogger(FtpClient.class);
+	// private final static Logger log = Logger.getLogger(FtpClient.class);
 
 	/**
 	 * @param server FTP主機位址
 	 * @param username 帳號
 	 * @param password 密碼
 	 */
-	public FtpClient(String FTPHost, String username, String password,
-			String LocalDir, String ServerDir) {
+	public FtpClient(String FTPHost, String username, String password, String LocalDir, String ServerDir) {
 
 		this.FTPHost = FTPHost;
 		this.username = username;
@@ -71,7 +71,7 @@ public class FtpClient {
 				}
 			} else {
 				ftp.disconnect();
-				//log.error("FTP server refused connection.");
+				// log.error("FTP server refused connection.");
 				System.out.println("FTP server refused connection.");
 			}
 		} catch (IOException e) {
@@ -79,6 +79,7 @@ public class FtpClient {
 				try {
 					ftp.disconnect();
 				} catch (IOException f) {
+
 				}
 			}
 			e.printStackTrace();
@@ -88,8 +89,11 @@ public class FtpClient {
 
 	/**
 	 * 下載遠端檔案
-	 * @param fileName 檔案名稱不含路徑
-	 * @param delFile 完成後是否刪除
+	 * 
+	 * @param fileName
+	 *            檔案名稱不含路徑
+	 * @param delFile
+	 *            完成後是否刪除
 	 * @return
 	 */
 	public boolean get(String fileName, boolean delFile) {
@@ -100,8 +104,11 @@ public class FtpClient {
 
 	/**
 	 * 上傳檔案
-	 * @param fileName 檔案名稱不含路徑
-	 * @param delFile 完成後是否刪除
+	 * 
+	 * @param fileName
+	 *            檔案名稱不含路徑
+	 * @param delFile
+	 *            完成後是否刪除
 	 * @return
 	 */
 	public boolean put(String fileName, boolean delFile) {
@@ -120,7 +127,7 @@ public class FtpClient {
 		for (int j = 0; j < result.length; j++) {
 			result[j] = false;
 		}
-		//String remoteFile;
+		// String remoteFile;
 		String localFile;
 		for (int i = 0; i < fileNames.length; i++) {
 			localFile = fileNames[i];
@@ -142,7 +149,7 @@ public class FtpClient {
 			} else {
 				ftp.setFileType(FTPClient.ASCII_FILE_TYPE);
 			}
-			
+
 			ftp.setBufferSize(1024);
 			ftp.setControlEncoding("UTF-8");
 			// 處理傳輸
@@ -163,7 +170,7 @@ public class FtpClient {
 				if (input != null) {
 					input.close();
 				}
-				//ftp.disconnect();
+				// ftp.disconnect();
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
@@ -174,8 +181,7 @@ public class FtpClient {
 	/**
 	 * 下載檔案
 	 */
-	public boolean get(String remoteAbsoluteFile, String localAbsoluteFile,
-			boolean delFile) {
+	public boolean get(String remoteAbsoluteFile, String localAbsoluteFile, boolean delFile) {
 		OutputStream output = null;
 		try {
 			// 設置檔案類型
@@ -192,6 +198,7 @@ public class FtpClient {
 				ftp.deleteFile(remoteAbsoluteFile);
 			}
 			return true;
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e1) {
@@ -202,6 +209,7 @@ public class FtpClient {
 					output.close();
 				}
 			} catch (IOException e2) {
+
 			}
 		}
 		return false;
@@ -298,9 +306,9 @@ public class FtpClient {
 		this.ftp = ftp;
 	}
 
-	public InputStream getInputStream(String remote) throws IOException{
-		
-		return ftp.retrieveFileStream(ServerDir+remote);
+	public InputStream getInputStream(String remote) throws IOException {
+
+		return ftp.retrieveFileStream(ServerDir + remote);
 	}
 
 }
