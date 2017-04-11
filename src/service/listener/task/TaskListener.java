@@ -9,10 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimerTask;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import service.impl.DataFinder;
 
 public class TaskListener extends TimerTask {
@@ -25,8 +28,11 @@ public class TaskListener extends TimerTask {
     public void run(){
 
     	//context.removeAttribute("app_name");
-    	ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(event.getServletContext());	    	
-		DataFinder dm=(DataFinder) context.getBean("DataFinder");
+    	//ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(event.getServletContext());	    	
+		//DataFinder dm=(DataFinder) context.getBean("DataFinder");
+    	AbstractApplicationContext context = new ClassPathXmlApplicationContext("classpath:../applicationContext.xml");
+    	DataFinder dm =(DataFinder)context.getBean("DataFinder");
+        context.registerShutdownHook();		
 		ServletContext servletContext = event.getServletContext();
 		
 		List<Map>tmp;
@@ -214,7 +220,7 @@ public class TaskListener extends TimerTask {
 		}
 		servletContext.setAttribute("dtimestamp", tmp);
 		System.out.println("--------------------");
-		
+		context.close();
     }
 
 }

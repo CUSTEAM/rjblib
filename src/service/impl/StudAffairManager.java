@@ -8,19 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import service.impl.base.BaseAccessImpl;
-import sun.rmi.runtime.Log;
-import sun.security.util.Debug;
-import model.Message;
-
 /**
  * 帳號相關應用
  * @author John

@@ -34,9 +34,6 @@ import service.impl.base.BaseMathImpl;
  */
 public class BaseAction extends ActionSupport implements ServletRequestAware, ServletResponseAware, SessionAware, ServletContextAware {	
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	ServletContext application = ServletActionContext.getRequest().getSession().getServletContext();	

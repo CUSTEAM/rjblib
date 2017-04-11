@@ -5,13 +5,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import service.impl.AccountManager;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
+
+import service.impl.AccountManager;
 	/**
 	 * 攔截使用者動作，驗證cookie & session有效
 	 * @author John
@@ -34,12 +34,17 @@ import com.opensymphony.xwork2.interceptor.Interceptor;
 	    		}
 	    	}	    	
 	    	//確認是否有尚未失效的cookie-name=userid，若有則為其他系統使用者跳轉
-	    	ApplicationContext context=WebApplicationContextUtils.getWebApplicationContext(session.getServletContext());	    	
-    		AccountManager am=(AccountManager) context.getBean("AccountManager");
+	    	//ApplicationContext context=WebApplicationContextUtils.getWebApplicationContext(session.getServletContext());	    	
+    		//AccountManager am=(AccountManager) context.getBean("AccountManager");
+	    	AbstractApplicationContext context = new ClassPathXmlApplicationContext("classpath:../applicationContext.xml");
+	    	AccountManager am =(AccountManager)context.getBean("AccountManager");
+            context.registerShutdownHook();
 	    	if(am.loginJumpUser(request)){
+	    		context.close();
 	    		return invocation.invoke();
 	    	}else{
 	    		//沒有session也沒有cookie者轉往登入頁
+	    		context.close();
 	    		HttpServletResponse response=ServletActionContext.getResponse();
 	    		response.sendRedirect("Logout");//轉送至eis
 	    		return null; 

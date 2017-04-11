@@ -1,21 +1,13 @@
 package service.impl;
 
-import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-
 import org.springframework.dao.DataAccessException;
 
 import service.impl.base.BaseAccessImpl;
-import service.impl.base.BaseLiteralImpl;
 
 public class CourseManager extends BaseAccessImpl{
 	DataFinder dataFinder;
