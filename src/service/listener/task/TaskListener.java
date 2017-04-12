@@ -183,9 +183,9 @@ public class TaskListener extends TimerTask {
 		servletContext.setAttribute("dtimeBlock", tmp);
 		System.out.println("--------------------");
 		
-		//選單
-		System.out.println("載入程式清單與使用權限");
-		System.out.println("建立程式清單與使用權限(List)sysmenu");
+		//階層式選單
+		System.out.println("載入程式清單(有階層)");
+		System.out.println("建立程式清單(List)sysmenu");
 		tmp=dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent=0 ORDER BY seq");//第0層
 		for(int i=0; i<tmp.size(); i++){
 			c=dm.sqlGet("SELECT * FROM SYS_MODULE WHERE parent="+tmp.get(i).get("Oid")+" ORDER BY seq");//第1層			
@@ -201,6 +201,15 @@ public class TaskListener extends TimerTask {
 		}		
 		servletContext.setAttribute("sysmenu", tmp);
 		System.out.println("--------------------");
+		
+		//選單
+		System.out.println("載入使用權限");
+		System.out.println("建立使用權限(List)sysrule");				
+		servletContext.setAttribute("sysrule", dm.sqlGet("SELECT u.unit_id, m.path FROM SYS_MODULE_UNIT u, SYS_MODULE m WHERE u.module_oid=m.base AND m.path IS NOT NULL"));
+		System.out.println("--------------------");
+		
+		
+		
 		
 		//節次時間
 		System.out.println("載入節次時間對應");
