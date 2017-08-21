@@ -12,11 +12,11 @@
         </id>
         
         <property name="CampusNo" type="java.lang.String">
-            <column name="CampusNo" length="3" />
+            <column name="CampusNo" />
         </property>
         
         <property name="SchoolNo" type="java.lang.String">
-            <column name="SchoolNo" length="3" />
+            <column name="SchoolNo" />
         </property>
         
         <property name="SchoolType" type="java.lang.String">
@@ -24,11 +24,15 @@
         </property>
         
         <property name="DeptNo" type="java.lang.String">
-            <column name="DeptNo" length="3" />
+            <column name="DeptNo"/>
+        </property>
+        
+        <property name="Dept" type="java.lang.String">
+            <column name="Dept" />
         </property>
         
         <property name="Grade" type="java.lang.String">
-            <column name="Grade" length="1" />
+            <column name="Grade" />
         </property>
         
         <property name="SeqNo" type="java.lang.String">
@@ -36,35 +40,35 @@
         </property>
         
         <property name="ClassNo" type="java.lang.String">
-            <column name="ClassNo" length="10" not-null="true" />
+            <column name="ClassNo"/>
         </property>
         
         <property name="ClassName" type="java.lang.String">
-            <column name="ClassName" length="50" not-null="true" />
+            <column name="ClassName" />
         </property>
         
         <property name="ShortName" type="java.lang.String">
-            <column name="ShortName" length="20" />
+            <column name="ShortName" />
         </property>
         
         <property name="Type" type="java.lang.String">
-            <column name="Type" length="1" not-null="true" />
+            <column name="Type" length="1" />
         </property>
         
         <property name="InstNo" type="java.lang.String">
-            <column name="InstNo" length="2" not-null="true" />
+            <column name="InstNo" length="2" />
         </property>
         
         <property name="SchNo" type="java.lang.String">
-            <column name="SchNo" length="2" not-null="true" />
+            <column name="SchNo" length="2"/>
         </property>
         
         <property name="tutor" type="java.lang.String">
-            <column name="tutor" length="20" not-null="true" />
+            <column name="tutor" length="20" />
         </property>
         
         <property name="graduate" type="java.lang.String">
-            <column name="graduate" length="1" not-null="true" />
+            <column name="graduate" length="1" />
         </property>
         
     </class>

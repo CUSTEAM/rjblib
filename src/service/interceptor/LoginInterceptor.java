@@ -44,9 +44,30 @@ import service.impl.AccountManager;
 	    		return invocation.invoke();
 	    	}else{
 	    		//沒有session也沒有cookie者轉往登入頁
+	    		
+	    		//StringBuilder sb=new StringBuilder();
+	            //Enumeration headerNames = request.getHeaderNames();
+	            //String key;
+	            //while (headerNames.hasMoreElements()) {
+	            	//key=(String) headerNames.nextElement();
+	                //sb.append(key+", "+request.getHeader(key)+"\n");
+	            //}
+	            try{
+	            	am.getDataFinder().exSql("INSERT INTO SYS_LOG(action,note)VALUES('"+
+	            request.getRequestURI()+"', '"+session.getAttribute("userid")+
+	            "非授權使用被拒絕\n"+"client IP: "+request.getRemoteAddr()+
+	            "\nclient host IP: "+request.getRemoteHost()+
+	            "\nx-forwarded-for: "+request.getHeader("x-forwarded-for")+"');");
+	            }catch(Exception e){                
+	            	am.getDataFinder().exSql("INSERT INTO SYS_LOG(action,note)VALUES('"+
+	            request.getRequestURI()+"', '"+"client IP: "+request.getRemoteAddr()+
+	            "\nclient host IP: "+request.getRemoteHost()+
+	            "\nx-forwarded-for: "+request.getHeader("x-forwarded-for")+"');");
+	            }	    		
 	    		context.close();
+	    		
 	    		HttpServletResponse response=ServletActionContext.getResponse();
-	    		response.sendRedirect("Logout");//轉送至eis
+	    		response.sendRedirect("/ssos/Status511");//轉送至eis	    		
 	    		return null; 
 	    	}
 	    }

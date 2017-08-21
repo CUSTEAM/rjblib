@@ -27,9 +27,7 @@ public class TaskListener extends TimerTask {
     
     public void run(){
 
-    	//context.removeAttribute("app_name");
-    	//ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(event.getServletContext());	    	
-		//DataFinder dm=(DataFinder) context.getBean("DataFinder");
+    	Date now=new Date();
     	AbstractApplicationContext context = new ClassPathXmlApplicationContext("classpath:../applicationContext.xml");
     	DataFinder dm =(DataFinder)context.getBean("DataFinder");
         context.registerShutdownHook();		
@@ -61,7 +59,7 @@ public class TaskListener extends TimerTask {
 			Calendar cal1=Calendar.getInstance();
 			Calendar cal2=Calendar.getInstance();
 			cal1.setTime(sf.parse(servletContext.getAttribute("school_term_begin").toString()));
-			cal2.setTime(new Date());
+			cal2.setTime(now);
 			int w=0;
 			while(cal1.getTimeInMillis()<cal2.getTimeInMillis()){
 				cal1.add(Calendar.DAY_OF_YEAR, 7);
@@ -229,6 +227,51 @@ public class TaskListener extends TimerTask {
 		}
 		servletContext.setAttribute("dtimestamp", tmp);
 		System.out.println("--------------------");
+		
+		//TODO 以下3項標記是為降低資料庫查詢量而預載，盼儘早整合..		
+		if(dm.sqlGetInt("SELECT COUNT(*) FROM SYS_CALENDAR WHERE name='coansw_begin' AND cdate<='"+sf.format(now)+"'")>0 && 
+		dm.sqlGetInt("SELECT COUNT(*) FROM SYS_CALENDAR WHERE name='coansw_end' AND cdate>='"+sf.format(now)+"'")>0){
+			System.out.println("建立教學評量日期條件(boolean)coanswPeriod: true");	
+			servletContext.setAttribute("coanswPeriod", true);
+		}else{
+			servletContext.setAttribute("coanswPeriod", false);
+		}
+		
+		//普通問卷		
+		if(dm.sqlGetInt("SELECT COUNT(*)FROM QUEST WHERE beginDate<='"+sf.format(now)+"' AND enDate>='"+sf.format(now)+"'")>0){
+			System.out.println("建立普通問卷日期條件(boolean)QUESTPeriod: true");		
+			servletContext.setAttribute("QUESTPeriod", true);
+			tmp=dm.sqlGet("SELECT * FROM QUEST WHERE beginDate<='"+sf.format(now)+"' AND enDate>='"+sf.format(now)+"'ORDER BY Oid DESC");
+			if(tmp.size()>0){
+				System.out.println("建立普通問卷編號(String)QUESTOid: "+tmp.get(0).get("Oid"));		
+				servletContext.setAttribute("QUESTOid", tmp.get(0).get("Oid"));
+				System.out.println("建立普通問卷名稱(String)QUESTitle");		
+				servletContext.setAttribute("QUESTitle", tmp.get(0).get("title"));
+				System.out.println("建立普通問卷網頁說明(String)QUESTNote");		
+				servletContext.setAttribute("QUESTNote", tmp.get(0).get("note_pub"));
+				tmp=dm.sqlGet("SELECT * FROM QUEST_QUE WHERE Qid="+tmp.get(0).get("Oid"));
+				for(int i=0; i<tmp.size(); i++){
+					tmp.get(i).put("options", dm.sqlGet("SELECT * FROM QUEST_OPT WHERE Qid="+tmp.get(i).get("Oid")+" ORDER BY Oid"));
+				}
+				System.out.println("建立普通問卷題目(List)QUESTInfo");		
+				servletContext.setAttribute("QUESTInfo", tmp);
+			}else{
+				servletContext.setAttribute("QUESTOid", null);
+			}		
+		}else{
+			servletContext.setAttribute("QUESTPeriod", false);
+		}
+		
+		//行政滿意度
+		//TODO 懶
+		if(dm.sqlGetInt("SELECT COUNT(*) FROM SYS_CALENDAR WHERE name='aqansw_begin' AND cdate<='"+sf.format(now)+"'")>0 && 
+		dm.sqlGetInt("SELECT COUNT(*) FROM SYS_CALENDAR WHERE name='aqansw_end' AND cdate>='"+sf.format(now)+"'")>0){
+			System.out.println("建立行政滿意度日期條件(boolean)AQPeriod: true");
+			servletContext.setAttribute("AQPeriod", true);
+		}else{
+			servletContext.setAttribute("AQPeriod", false);
+		}
+		
 		context.close();
     }
 

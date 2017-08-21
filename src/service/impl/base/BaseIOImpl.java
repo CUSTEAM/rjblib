@@ -222,7 +222,8 @@ public class BaseIOImpl {
 	 * @throws MessagingException
 	 * @throws UnsupportedEncodingException
 	 */
-	public void sendMail(String host, String receiver, String sender, String subject, String mess, String username, String password) throws AddressException, MessagingException, UnsupportedEncodingException{		
+	public void sendMail(String host, String receiver, String sender, String subject, String mess, 
+			String username, String password) throws AddressException, MessagingException, UnsupportedEncodingException{		
 		
 
 		boolean sessionDebug = false;

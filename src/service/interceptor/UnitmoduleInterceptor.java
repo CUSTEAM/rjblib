@@ -1,6 +1,5 @@
 package service.interceptor;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -10,9 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
+
+import service.impl.DataFinder;
 
 
 	/**
@@ -22,20 +25,16 @@ import com.opensymphony.xwork2.interceptor.Interceptor;
 	public class UnitmoduleInterceptor implements Interceptor {
 	    public void destroy() {}
 	    public void init() {}	   
-	    public String intercept(ActionInvocation invocation) throws Exception {  
-	    	//AbstractApplicationContext context = new ClassPathXmlApplicationContext("classpath:../applicationContext.xml");
-	    	//DataFinder df =(DataFinder)context.getBean("DataFinder");
-	        //context.registerShutdownHook();	    	
+	    public String intercept(ActionInvocation invocation) throws Exception {  	    	
 	    	//登入與登出功能不作攔截
 	    	if(invocation.getAction().getClass().getName().indexOf("Log")>=0){	    		
 	        	return invocation.invoke();
 	        }	    	
 	        HttpServletRequest request=ServletActionContext.getRequest();	        
-	        List<Map>s=(List<Map>)request.getServletContext().getAttribute("sysrule");
-	    	String path=request.getRequestURI();	    	
-	    	//path=path.substring(path.indexOf("tw")+2, path.length());
+	        List<Map<String,String>>s=(List<Map<String,String>>)request.getServletContext().getAttribute("sysrule");  	
+	        String path=request.getRequestURI();	
+	        //若有帶參數時要切參數出來判斷
 	    	if(request.getQueryString()!=null)path+="?"+request.getQueryString();
-	    	//System.out.println(path);
 	    	Cookie c[]=request.getCookies();
 	    	String unit[] = null;
 			for(int i=0; i<c.length; i++){		
@@ -45,19 +44,42 @@ import com.opensymphony.xwork2.interceptor.Interceptor;
 			if(unit!=null)
 			for(int i=0; i<unit.length; i++){				
 				for(int j=0; j<s.size(); j++){
-					//System.out.println(unit[i]+":"+s.get(j).get("unit_id"));					
-					if(s.get(j).get("path").equals(path)){
-						//System.out.println("work1");
+					//System.out.println(unit[i]+":"+s.get(j).get("unit_id"));	
+					if(path.indexOf(s.get(j).get("path").toString())>-1){						
 						if(s.get(j).get("unit_id").equals(unit[i])){
-							//System.out.println("work2");
 							return invocation.invoke();
 						}
 					}
 				}				
 			}
 			//return invocation.invoke();
+			HttpSession session=ServletActionContext.getRequest().getSession();
+			AbstractApplicationContext context = new ClassPathXmlApplicationContext("classpath:../applicationContext.xml");
+			DataFinder df =(DataFinder)context.getBean("DataFinder");
+            context.registerShutdownHook();            
+            //StringBuilder sb=new StringBuilder();
+            //Enumeration headerNames = request.getHeaderNames();
+            //String key;
+            //while (headerNames.hasMoreElements()) {
+            	//key=(String) headerNames.nextElement();
+                //sb.append(key+", "+request.getHeader(key)+"\n");
+            //}
+            try{
+            	df.exSql("INSERT INTO SYS_LOG(action,note)VALUES('"+request.getRequestURI()+
+            	"', '"+session.getAttribute("userid")+"非授權使用被拒絕\n"+"client IP: "+request.getRemoteAddr()+
+            	"\nclient host IP: "+request.getRemoteHost()+
+            	"\nx-forwarded-for: "+request.getHeader("x-forwarded-for")+"');");
+            }catch(Exception e){                
+            	df.exSql("INSERT INTO SYS_LOG(action,note)VALUES('"+request.getRequestURI()+
+            	"', '"+"client IP: "+request.getRemoteAddr()+
+            	"\nclient host IP: "+request.getRemoteHost()+
+            	"\nx-forwarded-for: "+request.getHeader("x-forwarded-for")+"');");
+            }
+            
+            context.close();
+            
 			HttpServletResponse response=ServletActionContext.getResponse();
-			response.sendRedirect("/eis/Logout");//轉送至eis
+			response.sendRedirect("/ssos/Status511");//轉送至eis
     		return null;
 			//context.close();
 	    	//登入與登出功能不作攔截
