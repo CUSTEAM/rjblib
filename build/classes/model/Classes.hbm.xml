@@ -31,7 +31,7 @@
             <column name="Dept" />
         </property>
         
-        <property name="Grade" type="java.lang.String">
+        <property name="Grade" type="java.lang.Integer">
             <column name="Grade" />
         </property>
         
@@ -71,5 +71,12 @@
             <column name="graduate" length="1" />
         </property>
         
+        <property name="editime" type="java.util.Date">
+            <column name="editime"/>
+        </property>
+        
+        <property name="editor" type="java.lang.String">
+            <column name="editor" length="1" />
+        </property>
     </class>
 </hibernate-mapping>
