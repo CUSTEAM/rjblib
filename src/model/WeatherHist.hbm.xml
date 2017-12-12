@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="model.WeatherHist" table="WeatherHist" catalog="CIS">
+        
+        <id name="ftime" column="ftime" type="java.util.Date">
+            <generator class="assigned"/>
+        </id>
+        
+        <property name="temp_c" type="java.lang.Float">
+            <column name="temp_c" />
+        </property>
+        
+        <property name="feelslike_c" type="java.lang.Float">
+            <column name="feelslike_c" />
+        </property>        
+        
+        <property name="wind_kph" type="java.lang.Float">
+            <column name="wind_kph" />
+        </property>        
+        
+        <property name="wind_dir" type="java.lang.String">
+            <column name="wind_dir" />
+        </property>        
+        
+        <property name="humidity" type="java.lang.Integer">
+            <column name="humidity" />
+        </property>
+        
+        <property name="cloud" type="java.lang.Integer">
+            <column name="cloud" />
+        </property>
+        
+        <property name="precip_mm" type="java.lang.Float">
+            <column name="precip_mm" not-null="false" default="0"/>
+        </property>
+        
+        <property name="chance_of_rain" type="java.lang.Integer">
+            <column name="chance_of_rain" />
+        </property> 
+        
+        <property name="code" type="java.lang.String">
+            <column name="code" />
+        </property> 
+        
+        <property name="text" type="java.lang.String">
+            <column name="text" />
+        </property>         
+        
+        <property name="icon" type="java.lang.String">
+            <column name="icon" />
+        </property>        
+    </class>
+</hibernate-mapping>

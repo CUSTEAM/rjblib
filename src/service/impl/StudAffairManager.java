@@ -86,6 +86,7 @@ public class StudAffairManager{
 	
 	/**
 	 * 取授課學生 - 單一科目學生
+	 * 教師點名已不參考此方法2017/12/8
 	 * @param Oid
 	 * @param date
 	 * @param week
