@@ -17,6 +17,7 @@ public class Seld implements java.io.Serializable {
 	private Integer score01;
 	private Integer score02;
 	private Integer score03;
+	private Integer batchOid;
 	public Integer getDtimeOid() {
 		return DtimeOid;
 	}
@@ -184,6 +185,12 @@ public class Seld implements java.io.Serializable {
 	}
 	public void setDtime_teacher(Integer dtime_teacher) {
 		Dtime_teacher = dtime_teacher;
+	}
+	public Integer getBatchOid() {
+		return batchOid;
+	}
+	public void setBatchOid(Integer batchOid) {
+		this.batchOid = batchOid;
 	}
 	private Integer score04;
 	private Integer score05;

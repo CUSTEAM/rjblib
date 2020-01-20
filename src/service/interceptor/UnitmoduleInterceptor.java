@@ -1,5 +1,8 @@
 package service.interceptor;
 
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +18,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
 
+import model.SysLog;
+import model.SysLogSecurity;
 import service.impl.DataFinder;
 
 
@@ -47,109 +52,43 @@ import service.impl.DataFinder;
 					//System.out.println(unit[i]+":"+s.get(j).get("unit_id"));	
 					if(path.indexOf(s.get(j).get("path").toString())>-1){						
 						if(s.get(j).get("unit_id").equals(unit[i])){
+							//權限相符執行
 							return invocation.invoke();
 						}
 					}
 				}				
 			}
-			//return invocation.invoke();
+			
+			//權限不符記錄並跳出
 			HttpSession session=ServletActionContext.getRequest().getSession();
+			HttpServletResponse response=ServletActionContext.getResponse();
 			AbstractApplicationContext context = new ClassPathXmlApplicationContext("classpath:../applicationContext.xml");
 			DataFinder df =(DataFinder)context.getBean("DataFinder");
-            context.registerShutdownHook();            
-            //StringBuilder sb=new StringBuilder();
-            //Enumeration headerNames = request.getHeaderNames();
-            //String key;
-            //while (headerNames.hasMoreElements()) {
-            	//key=(String) headerNames.nextElement();
-                //sb.append(key+", "+request.getHeader(key)+"\n");
-            //}
-            try{
-            	df.exSql("INSERT INTO SYS_LOG(action,note)VALUES('"+request.getRequestURI()+
-            	"', '"+session.getAttribute("userid")+"非授權使用被拒絕\n"+"client IP: "+request.getRemoteAddr()+
-            	"\nclient host IP: "+request.getRemoteHost()+
-            	"\nx-forwarded-for: "+request.getHeader("x-forwarded-for")+"');");
-            }catch(Exception e){                
-            	df.exSql("INSERT INTO SYS_LOG(action,note)VALUES('"+request.getRequestURI()+
-            	"', '"+"client IP: "+request.getRemoteAddr()+
-            	"\nclient host IP: "+request.getRemoteHost()+
-            	"\nx-forwarded-for: "+request.getHeader("x-forwarded-for")+"');");
-            }
-            
-            context.close();
-            
-			HttpServletResponse response=ServletActionContext.getResponse();
+            context.registerShutdownHook(); 
+            SysLogSecurity log=new SysLogSecurity();
+			log.setAction(invocation.getAction().getClass().getName());
+			log.setUserid(String.valueOf(session.getAttribute("userid")));
+			log.setAgent(request.getHeader("User-Agent"));
+			log.setRemoteaddress(request.getHeader("X-FORWARDED-FOR"));
+			log.setIpaddress(request.getRemoteAddr());
+			log.setNote(getHeader(request));
+			log.setUpTime(new Timestamp(new Date().getTime()));
+    		df.update(log);			
+			context.close();
 			response.sendRedirect("/ssos/Status511");//轉送至eis
     		return null;
-			//context.close();
-	    	//登入與登出功能不作攔截
-	    	/*if(invocation.getAction().getClass().getName().indexOf("Log")>=0){	    		
-	        	return invocation.invoke();
-	        }	        
-	    	//確認是否有選單及權限session，若有則驗證為線上使用者
-	    	if(session!=null){
-	    		if(session.getAttribute("userid")!=null){//使用者為本專案線上使用者
-	    			return invocation.invoke();
-	    		}
-	    	}	    	
-	    	//確認是否有尚未失效的cookie-name=userid，若有則為其他系統使用者跳轉
-	    	ApplicationContext context=WebApplicationContextUtils.getWebApplicationContext(session.getServletContext());	    	
-    		AccountManager am=(AccountManager) context.getBean("AccountManager");
-	    	if(am.loginJumpUser(request)){
-	    		return invocation.invoke();
-	    	}else{
-	    		//沒有session也沒有cookie者轉往登入頁
-	    		HttpServletResponse response=ServletActionContext.getResponse();
-	    		response.sendRedirect("Logout");//轉送至eis
-	    		return null; 
-	    	}
-	    	*/
-	    	
-	    	//response.sendRedirect("Logout");//轉送至eis
-    		//return null; 
-	    	
-	    	 
-	    	//System.out.println(request.getServletPath());			
-			//System.out.println("full url:"+request.getRequestURL());
-	    	//System.out.println("server url:"+request.getServletPath());
-	    	
-	    	
-			/*
-			System.out.println("-------session--------");
-			Enumeration<String>enums = request.getSession().getAttributeNames();
-			String name;
-			while(enums.hasMoreElements() ){
-				name=enums.nextElement();
-				System.out.println( name+":"+request.getSession().getAttribute(name) );				
-			}
-			
-			
-			System.out.println("-------cookie--------");
-			System.out.println("List cookies:");
-			Cookie[] c=request.getCookies();
-			for(int i=0; i<c.length; i++){
-				System.out.println(c[i].getName()+":"+c[i].getValue());
-			}
-			
-			
-			
-			List<Map>m=(List<Map>) request.getServletContext().getAttribute("sysmenu");
-	    	List<Map>f;
-	    	List<Map>r;
-	    	for(int i=0; i<m.size(); i++){
-	    		System.out.println(m.get(i).get("name"));
-	    		//f=(List<Map>) m.get(i).get("menu");
-	    		r=(List<Map>) m.get(i).get("rule");
-	    		
-	    		for(int j=0; j<r.size(); j++){
-	    			System.out.println(r.get(j));
-	    		}
-	    	}
-			
-			
-	    	
-	    	*/
-	    	
-	    	//return invocation.invoke();
 	    }
-	} 	
+	    
+	    private String getHeader(HttpServletRequest request) {
+	        //Map<String, String> result = new HashMap<>();
+			StringBuilder sb=new StringBuilder();
+	        Enumeration headerNames = request.getHeaderNames();
+	        String key;
+	        while (headerNames.hasMoreElements()) {
+	            key = (String) headerNames.nextElement();            
+	            sb.append(request.getHeader(key)+": "+request.getHeader(key)+"\n");
+	        }
+	        sb.append("remote-host: "+request.getRemoteHost());
+	        return sb.toString();
+	    }
+}

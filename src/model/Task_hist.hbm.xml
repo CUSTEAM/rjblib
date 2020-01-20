@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="model.Task_hist" table="Task_hist" catalog="CIS">        
+        
+        <id name="Oid" type="java.lang.Integer">
+            <column name="Oid" />
+            <generator class="native" />
+        </id>
+        
+        <property name="Task_oid" type="java.lang.Integer">
+            <column name="Task_oid" />
+        </property>
+        
+        <property name="Task_hist_oid" type="java.lang.Integer">
+            <column name="Task_hist_oid" />
+        </property>
+        
+        
+        <property name="empl" type="java.lang.String">
+            <column name="empl" />
+        </property>
+        
+        <property name="note" type="java.lang.String">
+            <column name="note" />
+        </property>
+        
+        <property name="sdate" type="java.util.Date">
+            <column name="sdate" />
+        </property>
+        
+        <property name="edate" type="java.util.Date">
+            <column name="edate" />
+        </property>
+        
+        <property name="open" type="java.lang.String">
+            <column name="open" />
+        </property>
+        
+        <property name="feedback" type="java.lang.String">
+            <column name="feedback" />
+        </property>
+    </class>
+</hibernate-mapping>

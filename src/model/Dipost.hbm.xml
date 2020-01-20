@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="model.Dipost" table="Dipost" catalog="CIS">
+        <id name="oid" type="java.lang.Integer">
+            <column name="Oid" />
+            <generator class="identity" />
+        </id>
+        <property name="studentNo" type="java.lang.String">
+            <column name="StudentNo" length="10" not-null="true">
+                <comment>學號</comment>
+            </column>
+        </property>
+        <property name="officeNo" type="java.lang.String">
+            <column name="OfficeNo" length="10">
+                <comment>郵局局號</comment>
+            </column>
+        </property>
+        <property name="acctNo" type="java.lang.String">
+            <column name="AcctNo" length="10">
+                <comment>轉帳帳號</comment>
+            </column>
+        </property>
+        <property name="money" type="java.lang.Integer">
+            <column name="Money">
+                <comment>轉帳金額</comment>
+            </column>
+        </property>
+        <property name="kind" type="java.lang.String">
+            <column name="Kind" length="2">
+                <comment>轉帳種類:3=工讀費</comment>
+            </column>
+        </property>
+        <property name="modifier" type="java.lang.String">
+            <column name="Modifier" length="10" />
+        </property>
+        <property name="lastModified" type="java.sql.Timestamp">
+            <column name="LastModified" length="19" not-null="true">
+                <comment>最後修改時間</comment>
+            </column>
+        </property>
+        <property name="schoolYear" type="java.lang.String">
+            <column name="SchoolYear" length="3">
+                <comment>學年</comment>
+            </column>
+        </property>
+        <property name="schoolTerm" type="java.lang.String">
+            <column name="SchoolTerm" length="1">
+                <comment>學期</comment>
+            </column>
+        </property>
+        <property name="occurMonth" type="java.lang.Integer">
+            <column name="occur_month">
+                <comment>發生月份</comment>
+            </column>
+        </property>
+        <property name="insuranceBegin" type="java.util.Date">
+            <column name="insurance_begin" length="10">
+                <comment>加保日期</comment>
+            </column>
+        </property>
+        <property name="insuranceEnd" type="java.util.Date">
+            <column name="insurance_end" length="10">
+                <comment>退保日期</comment>
+            </column>
+        </property>
+        <property name="dis" type="java.lang.String">
+            <column name="dis" length="2">
+                <comment>身心障礙身份0:否, 1是</comment>
+            </column>
+        </property>
+        <property name="hirerLabor" type="java.lang.Integer">
+            <column name="hirer_labor" precision="6" scale="0">
+                <comment>雇主勞保</comment>
+            </column>
+        </property>
+        <property name="hirerHealth" type="java.lang.Integer">
+            <column name="hirer_health" precision="6" scale="0">
+                <comment>雇主健保</comment>
+            </column>
+        </property>
+        <property name="hirerHealthTwo" type="java.lang.Integer">
+            <column name="hirer_health_two" precision="6" scale="0">
+                <comment>雇主2代健保</comment>
+            </column>
+        </property>
+        <property name="hirerRetire" type="java.lang.Integer">
+            <column name="hirer_retire" precision="6" scale="0">
+                <comment>雇主勞退</comment>
+            </column>
+        </property>
+        <property name="selfLabor" type="java.lang.Integer">
+            <column name="self_labor" precision="6" scale="0">
+                <comment>自付勞保</comment>
+            </column>
+        </property>
+        <property name="selfHealth" type="java.lang.Integer">
+            <column name="self_health" precision="6" scale="0">
+                <comment>自付健保</comment>
+            </column>
+        </property>
+        <property name="selfHealthTwo" type="java.lang.Integer">
+            <column name="self_health_two" precision="6" scale="0">
+                <comment>自付2代健保</comment>
+            </column>
+        </property>
+        <property name="pubmoney" type="java.lang.Integer">
+            <column name="pubmoney" precision="6" scale="0">
+                <comment>申報薪資</comment>
+            </column>
+        </property>
+        <property name="payables" type="java.lang.Integer">
+            <column name="payables" precision="6" scale="0">
+                <comment>應付薪資</comment>
+            </column>
+        </property>
+        <property name="originEdu" type="java.lang.Integer">
+            <column name="origin_edu" precision="6" scale="0">
+                <comment>教育部經費</comment>
+            </column>
+        </property>
+        <property name="originMst" type="java.lang.Integer">
+            <column name="origin_mst" precision="11" scale="0">
+                <comment>科技部經費</comment>
+            </column>
+        </property>
+        <property name="originSelf" type="java.lang.Integer">
+            <column name="origin_self" precision="6" scale="0">
+                <comment>學校自籌經費</comment>
+            </column>
+        </property>
+        <property name="originOther" type="java.lang.Integer">
+            <column name="origin_other" precision="6" scale="0">
+                <comment>其他來源經費</comment>
+            </column>
+        </property>
+        <property name="hours" type="java.lang.Short">
+            <column name="hours" precision="3" scale="0">
+                <comment>時數</comment>
+            </column>
+        </property>
+        <property name="jobResearch" type="java.lang.String">
+            <column name="job_research" length="2">
+                <comment>兼任助理類別A:研究助理</comment>
+            </column>
+        </property>
+        <property name="jobTeach" type="java.lang.String">
+            <column name="job_teach" length="1">
+                <comment>兼任助理類別:B.教學助理</comment>
+            </column>
+        </property>
+        <property name="jobService" type="java.lang.String">
+            <column name="job_service" length="1">
+                <comment>兼任助理類別:C工讀附服務負擔</comment>
+            </column>
+        </property>
+        <property name="payStudy" type="java.lang.String">
+            <column name="pay_study" length="1">
+                <comment>職務類型1純助學</comment>
+            </column>
+        </property>
+        <property name="payLabor" type="java.lang.String">
+            <column name="pay_labor" length="1">
+                <comment>職務類型:2勞僱</comment>
+            </column>
+        </property>
+        <property name="payService" type="java.lang.String">
+            <column name="pay_service" length="1">
+                <comment>職務類型:3附服務負擔</comment>
+            </column>
+        </property>
+        <property name="moneyWork" type="java.lang.String">
+            <column name="money_work" length="1">
+                <comment>工讀助學金</comment>
+            </column>
+        </property>
+        <property name="moneyLife" type="java.lang.String">
+            <column name="money_life" length="1">
+                <comment>生活助學金</comment>
+            </column>
+        </property>
+        <property name="unit" type="java.lang.String">
+            <column name="unit" length="5">
+                <comment>本校單位</comment>
+            </column>
+        </property>
+        <property name="rcAio" type="java.lang.Integer">
+            <column name="Rc_aio">
+                <comment>Rc_aio Oid 重新指向到Rc...</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

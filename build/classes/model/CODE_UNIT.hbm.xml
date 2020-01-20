@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="model.CODE_UNIT" table="CODE_UNIT" catalog="CIS">
+        
+        <id name="id" column="id" type="java.lang.String">
+            <generator class="assigned"/>
+        </id>        
+        
+        <property name="campus" type="java.lang.String">
+            <column name="campus" />
+        </property>
+        <property name="pid" type="java.lang.String">
+            <column name="pid" />
+        </property>
+        <property name="classes" type="java.lang.String">
+            <column name="classes" />
+        </property>
+        <property name="name" type="java.lang.String">
+            <column name="name" />
+        </property>
+        <property name="sname" type="java.lang.String">
+            <column name="sname" />
+        </property>
+        <property name="ename" type="java.lang.String">
+            <column name="ename" />
+        </property>
+        <property name="location" type="java.lang.String">
+            <column name="location" />
+        </property>
+        <property name="phone" type="java.lang.String">
+            <column name="phone" />
+        </property>
+        <property name="fax" type="java.lang.String">
+            <column name="fax" />
+        </property>
+        <property name="email" type="java.lang.String">
+            <column name="email" />
+        </property>
+        <property name="website" type="java.lang.String">
+            <column name="website" />
+        </property>
+        <property name="leader" type="java.lang.String">
+            <column name="leader" />
+        </property>
+        <property name="assistant" type="java.lang.String">
+            <column name="assistant" />
+        </property>
+              
+    </class>
+</hibernate-mapping>

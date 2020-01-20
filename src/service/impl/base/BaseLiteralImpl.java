@@ -1,11 +1,15 @@
 package service.impl.base;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 
 public class BaseLiteralImpl {
 	
@@ -146,5 +150,63 @@ public class BaseLiteralImpl {
 		sf=new SimpleDateFormat("yyyyMMdd");		
 		return String.valueOf(Integer.parseInt(sf.format(c.getTime())));
 		
+	}
+	
+	/**
+	 * excel欄位強制轉文字 for XLS
+	 * @param cell
+	 * @return
+	 */
+	private String readCellAsString(HSSFCell cell) {
+		if (cell == null) {
+			return null;
+		}
+		final DecimalFormat df = new DecimalFormat("####################0.##########");
+
+		switch (cell.getCellType()) {
+		case HSSFCell.CELL_TYPE_BLANK:
+			return "";
+		case HSSFCell.CELL_TYPE_BOOLEAN:
+			return Boolean.valueOf(cell.getBooleanCellValue()).toString();
+		case HSSFCell.CELL_TYPE_NUMERIC:
+			return df.format(cell.getNumericCellValue());
+		case HSSFCell.CELL_TYPE_STRING:
+			return cell.getStringCellValue();
+		case HSSFCell.CELL_TYPE_FORMULA:
+			return cell.getCellFormula();
+		case HSSFCell.CELL_TYPE_ERROR:
+			return Byte.toString(cell.getErrorCellValue());
+		default:
+			return "##POI## Unknown cell type";
+		}
+	}
+	
+	/**
+	 * excel欄位強制轉文字 for XLSX
+	 * @param cell
+	 * @return
+	 */
+	private String readCellAsString(XSSFCell cell) {
+		if (cell == null) {
+			return null;
+		}
+		final DecimalFormat df = new DecimalFormat("####################0.##########");
+
+		switch (cell.getCellType()) {
+		case HSSFCell.CELL_TYPE_BLANK:
+			return "";
+		case HSSFCell.CELL_TYPE_BOOLEAN:
+			return Boolean.valueOf(cell.getBooleanCellValue()).toString().trim();
+		case HSSFCell.CELL_TYPE_NUMERIC:
+			return df.format(cell.getNumericCellValue()).trim();
+		case HSSFCell.CELL_TYPE_STRING:
+			return cell.getStringCellValue().trim();
+		case HSSFCell.CELL_TYPE_FORMULA:
+			return cell.getCellFormula().trim();
+		case HSSFCell.CELL_TYPE_ERROR:
+			return Byte.toString(cell.getErrorCellValue());
+		default:
+			return "##POI## Unknown cell type";
+		}
 	}
 }

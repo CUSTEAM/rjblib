@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="model.Enroll" table="Enroll" catalog="CIS">
+        <id name="oid" type="java.lang.Integer">
+            <column name="Oid" />
+            <generator class="identity" />
+        </id>
+        <property name="schoolYear" type="java.lang.Short">
+            <column name="school_year" precision="3" scale="0">
+                <comment>學年度</comment>
+            </column>
+        </property>
+        <property name="signBegin" type="java.sql.Timestamp">
+            <column name="sign_begin" length="19">
+                <comment>報名開始</comment>
+            </column>
+        </property>
+        <property name="signEnd" type="java.sql.Timestamp">
+            <column name="sign_end" length="19">
+                <comment>報名結束</comment>
+            </column>
+        </property>
+        <property name="openScore" type="java.sql.Timestamp">
+            <column name="open_score" length="19">
+                <comment>成績開放查詢</comment>
+            </column>
+        </property>
+        <property name="openMatch" type="java.sql.Timestamp">
+            <column name="open_match" length="19">
+                <comment>放榜時間</comment>
+            </column>
+        </property>
+        <property name="enrollName" type="java.lang.String">
+            <column name="enroll_name" length="256">
+                <comment>招生委員會名稱</comment>
+            </column>
+        </property>
+        <property name="regFee" type="java.lang.Short">
+            <column name="reg_fee" precision="4" scale="0">
+                <comment>報名費用依規定退補差額</comment>
+            </column>
+        </property>
+        <property name="subsel" type="java.lang.Byte">
+            <column name="subsel" precision="2" scale="0">
+                <comment>志願數</comment>
+            </column>
+        </property>
+        <property name="note" type="java.lang.String">
+            <column name="note" length="65535">
+                <comment>注意事項</comment>
+            </column>
+        </property>
+        <property name="brochure" type="java.lang.String">
+            <column name="brochure" length="256">
+                <comment>簡章連結</comment>
+            </column>
+        </property>
+        <property name="envelope" type="java.lang.String">
+            <column name="envelope" length="256">
+                <comment>信封袋連結</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

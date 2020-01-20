@@ -134,5 +134,9 @@
         <property name="elearnDilg" type="java.lang.Integer">
             <column name="elearn_dilg" />
         </property>
+        <property name="batchOid" type="java.lang.Integer">
+            <column name="batchOid" />
+        </property>
+        
     </class>
 </hibernate-mapping>

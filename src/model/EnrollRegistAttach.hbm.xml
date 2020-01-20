@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="model.EnrollRegistAttach" table="Enroll_regist_attach" catalog="CIS">
+        <id name="oid" type="java.lang.Integer">
+            <column name="Oid" />
+            <generator class="identity" />
+        </id>
+        <property name="enrollRegistOid" type="java.lang.Integer">
+            <column name="Enroll_regist_oid" />
+        </property>
+        <property name="enrollAttachOid" type="java.lang.Integer">
+            <column name="Enroll_attach_oid" />
+        </property>
+        <property name="path" type="java.lang.String">
+            <column name="path" length="64" />
+        </property>
+        <property name="status" type="java.lang.String">
+            <column name="status" length="1">
+                <comment>審核狀態:null未審核, 1:通過, 2:不通過</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

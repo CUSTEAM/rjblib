@@ -300,7 +300,7 @@ public class StudAffairManager{
 	}
 	
 	public List dilguneed(String begin, String end){
-		return dataFinder.sqlGet("SELECT date FROM AMS_Holiday WHERE date>='"+begin+"' AND date<='"+end+"'");
+		return dataFinder.sqlGet("SELECT date FROM AMS_Holiday WHERE date>='"+begin+"' AND date<='"+end+"'AND Type='H'");
 	}
 	
 	/**

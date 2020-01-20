@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="model.Wwpass" table="wwpass" catalog="CIS">
+        <id name="oid" type="java.lang.Integer">
+            <column name="Oid" />
+            <generator class="identity" />
+        </id>
+        
+        <property name="username" type="java.lang.String">
+            <column name="username">
+                <comment>帳號</comment>
+            </column>
+        </property>
+        
+        <property name="freename" type="java.lang.String">
+            <column name="freename">
+                <comment>自訂帳號</comment>
+            </column>
+        </property>
+        
+        <property name="password" type="java.lang.String">
+            <column name="password">
+                <comment>密碼</comment>
+            </column>
+        </property>
+        
+        <property name="priority" type="java.lang.String">
+            <column name="priority">
+                <comment>身份</comment>
+            </column>
+        </property>
+        
+        <property name="inco" type="java.lang.String">
+            <column name="inco">
+                <comment>卡號</comment>
+            </column>
+        </property>
+        
+        <property name="updated" type="java.util.Date">
+            <column name="updated">
+                <comment>變更日期</comment>
+            </column>
+        </property>           	
+    </class>
+</hibernate-mapping>

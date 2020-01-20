@@ -97,7 +97,7 @@ public class TaskListener extends TimerTask {
 		//假期
 		System.out.println("載入假期為List of Map型態");
 		tmp=dm.sqlGet("SELECT Date, Date as date, Name FROM AMS_Holiday WHERE Date>='"+servletContext.getAttribute("school_term_begin")+"' AND Date<='"+
-		servletContext.getAttribute("school_term_end")+"'");
+		servletContext.getAttribute("school_term_end")+"'AND Type='H'");
 		System.out.println("建立休假日期(List)holiday="+tmp.size());
 		servletContext.setAttribute("holiday", tmp);
 		System.out.println("--------------------");		

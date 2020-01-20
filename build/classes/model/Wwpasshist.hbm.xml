@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="model.Wwpasshist" table="wwpasshist" catalog="CIS">
+        <id name="oid" type="java.lang.Integer">
+            <column name="Oid" />
+            <generator class="identity" />
+        </id>
+        <property name="username" type="java.lang.String">
+            <column name="username" length="32">
+                <comment>登入帳號名稱</comment>
+            </column>
+        </property>
+        <property name="uptime" type="java.sql.Timestamp">
+            <column name="uptime" length="19" not-null="true">
+                <comment>時間</comment>
+            </column>
+        </property>
+        <property name="remoteaddress" type="java.lang.String">
+            <column name="remoteaddress">
+                <comment>跳板IP</comment>
+            </column>
+        </property>
+        <property name="ipaddress" type="java.lang.String">
+            <column name="ipaddress">
+                <comment>理論上的真實IP</comment>
+            </column>
+        </property>
+        <property name="useragent" type="java.lang.String">
+            <column name="useragent">
+                <comment>使用者代理</comment>
+            </column>
+        </property>
+        <property name="loginmsg" type="java.lang.String">
+            <column name="loginmsg" length="1">
+                <comment>null:無異狀, 0:失敗, 1:..,2:....</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -8,8 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;  
 import javax.imageio.ImageIO;  
  
-import com.sun.image.codec.jpeg.JPEGCodec;  
-import com.sun.image.codec.jpeg.JPEGImageEncoder;  
+//import com.sun.image.codec.jpeg.JPEGCodec;  
+//import com.sun.image.codec.jpeg.JPEGImageEncoder;  
  
 public class ImageHandler {  
 	
@@ -46,8 +46,9 @@ public class ImageHandler {
             tag.getGraphics().drawImage(img.getScaledInstance(widthdist, heightdist, Image.SCALE_SMOOTH), 0, 0, null);  
             img.flush();
             FileOutputStream out = new FileOutputStream(imgdist);  
-            JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);  
-            encoder.encode(tag);  
+            ImageIO.write(tag, "jpg", out);
+            //JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);              
+            //encoder.encode(tag);  
             out.close();  
  
         } catch (IOException ex) {  

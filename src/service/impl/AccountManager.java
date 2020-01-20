@@ -42,6 +42,7 @@ public class AccountManager{
 	 * @param session
 	 */
 	public boolean loginJumpUser(HttpServletRequest request){
+		System.out.println(request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/"+request.getContextPath());
 		Cookie c[]=request.getCookies();
 		if(c!=null){
     		String userid;
@@ -59,9 +60,10 @@ public class AccountManager{
 	    				//已在其他地方重複登入
 	    	    		return false;
 	    	    	}else{
-	    	    		//request.getSession().invalidate();	 
-	    	    		request.getSession().setAttribute("userid", user.get("username"));//<-----	 
-	    	    		request.getSession().setAttribute("userOid", user.get("Oid"));//<-----	 
+	    	    		//確定為跳轉使用者
+	    	    		request.getSession(true).setAttribute("userid", user.get("username"));//<-----	 
+	    	    		request.getSession(true).setAttribute("userOid", user.get("Oid"));//<-----	 
+	    	    		System.out.println("已記錄userid: "+request.getSession().getAttribute("userid"));
 	    	    		return true;
 	    	    	}	    			
 	    		}
@@ -71,16 +73,6 @@ public class AccountManager{
     }
 	
 	public void delUseridCookie(HttpServletResponse response){
-		/*Cookie c[]=request.getCookies();		
-		for(int i=0; i<c.length; i++){			
-			if(c[i].getName().equals("userid")){
-				c[i].setMaxAge(0);
-				c[i].setDomain(".cust.edu.tw");
-				c[i].setPath("/");
-				response.addCookie(c[i]);
-			}
-		}
-		*/
 		Cookie cookie = new Cookie("userid", "deleted");
 		cookie.setMaxAge(0); // 暫1小時有效	    	
     	cookie.setDomain(".cust.edu.tw");
