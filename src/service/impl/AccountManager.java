@@ -63,7 +63,7 @@ public class AccountManager{
 	    	    		//確定為跳轉使用者
 	    	    		request.getSession(true).setAttribute("userid", user.get("username"));//<-----	 
 	    	    		request.getSession(true).setAttribute("userOid", user.get("Oid"));//<-----	 
-	    	    		System.out.println("已記錄userid: "+request.getSession().getAttribute("userid"));
+	    	    		//System.out.println("已記錄userid: "+request.getSession().getAttribute("userid"));
 	    	    		return true;
 	    	    	}	    			
 	    		}
